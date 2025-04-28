@@ -1,8 +1,47 @@
 
 {% extends 'html_files/base.html' %}
 {% load static %}
+{% load custom_tags %}
 {% block content %}
 
+<style>
+#timer {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+}
+
+.time {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 70px; /* Фиксированная ширина */
+    height: 80px; /* Фиксированная высота */
+    background-color: #333;
+    border-radius: 5px;
+    padding: 10px;
+    box-sizing: border-box; /* Добавьте это свойство, чтобы padding не увеличивал размер */
+}
+
+.time span {
+    display: block;
+    font-size: 2rem;
+    color: #fff;
+    transition: none; /* Убираем анимацию */
+}
+
+.label {
+    margin-top: 5px;
+    font-size: 1rem;
+    color: #ccc;
+}
+
+</style>
 
     <section id="home-section" class="hero">
 		  <div class="home-slider owl-carousel">
@@ -18,7 +57,7 @@
 				            <h1 class="mb-4 mt-3">Shoes Collection 2019</h1>
 				            <p class="mb-4">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country.</p>
 				            
-				            <p><a href="#" class="btn-custom">Discover Now</a></p>
+				            <p><a href="{% url 'shop' %}" class="btn-custom">Discover Now</a></p>
 				          </div>
 		            </div>
 		          </div>
@@ -38,7 +77,7 @@
 				            <h1 class="mb-4 mt-3">New Shoes Winter Collection</h1>
 				            <p class="mb-4">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country.</p>
 				            
-				            <p><a href="#" class="btn-custom">Discover Now</a></p>
+				            <p><a href="{% url 'shop' %}" class="btn-custom">Discover Now</a></p>
 				          </div>
 		            </div>
 		          </div>
@@ -117,9 +156,22 @@
 
 	    					</div>
     						<h3><a href="#">{{ tovar.name }}</a></h3>
+    						{% with skidka=skidka_tovars|get_discount:tovar %}
+  							{% if skidka %}
+    						{% for tovar in skidka.old.all %}
+      						<div class="pricing">
+								<p class="price">
+								<span class="mr-2 price-dc">{{ tovar.price }}$</span>
+								<span class="price-sale">{{ skidka.price_new }}$</span>
+			  					</p>
+      						</div>
+    						{% endfor %}
+  							{% else %}
     						<div class="pricing">
-	    						<p class="price"><span>{{ tovar.price }}$</span></p>
-	    					</div>
+        					<p class="price"><span>{{ tovar.price }}$</span></p>
+    						</div>
+  							{% endif %}
+							{% endwith %}
 	    					<p class="bottom-area d-flex px-3">
     							<a href="#" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
     							<a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a>
@@ -129,58 +181,6 @@
     			</div>
 				{% endfor %}
 
-				{% for tovar in cat2 %}
-				<div class="col-sm-12 col-md-6 col-lg-3 ftco-animate d-flex">
-    				<div class="product d-flex flex-column">
-    					<a href="#" class="img-prod"><img class="img-fluid" src="{{ tovar.img.url }}" alt="{{ tovar.name }}">
-    						<span class="status">50% Off</span>
-    						<div class="overlay"></div>
-    					</a>
-    					<div class="text py-3 pb-4 px-3">
-    						<div class="d-flex">
-    							<div class="cat">
-		    						{{ tovar.tag.all|join:", " }}
-		    					</div>
-
-	    					</div>
-    						<h3><a href="#">{{ tovar.name }}</a></h3>
-  							<div class="pricing">
-	    						<p class="price"><span class="mr-2 price-dc">$120.00</span><span class="price-sale">{{ tovar.price }}$</span></p>
-	    					</div>
-	    					<p class="bottom-area d-flex px-3">
-    							<a href="#" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
-    							<a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a>
-    						</p>
-    					</div>
-    				</div>
-    			</div>
-				{% endfor %}
-
-				{% for tovar in cat3 %}
-    			<div class="col-sm-12 col-md-6 col-lg-3 ftco-animate d-flex">
-    				<div class="product">
-    					<a href="#" class="img-prod"><img class="img-fluid" src="{{ tovar.img.url }}" alt="{{ tovar.name }}">
-	    					<div class="overlay"></div>
-	    				</a>
-    					<div class="text py-3 pb-4 px-3">
-    						<div class="d-flex">
-    							<div class="cat">
-		    						{{ tovar.tag.all|join:", " }}
-		    					</div>
-
-	    					</div>
-    						<h3><a href="#">{{ tovar.name }}</a></h3>
-  							<div class="pricing">
-	    						<p class="price"><span>{{ tovar.price }}$</span></p>
-	    					</div>
-	    					<p class="bottom-area d-flex px-3">
-    							<a href="#" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
-    							<a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a>
-    						</p>
-    					</div>
-    				</div>
-    			</div>
-				{% endfor %}
 
 				{% for tovar in cat4 %}
 				<div class="col-sm-12 col-md-6 col-lg-3 ftco-animate d-flex">
@@ -225,7 +225,7 @@
 								<span class="subheading">Men's Shoes</span>
     						<h2>Men's Collection</h2>
     						<p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-    						<p><a href="#" class="btn btn-black px-3 py-2">Shop now</a></p>
+    						<p><a href="{% url 'shop' %}" class="btn btn-black px-3 py-2">Shop now</a></p>
     					</div>
     				</div>
 					</div>
@@ -238,7 +238,7 @@
 	    								<span class="subheading">Women's Shoes</span>
 			    						<h2>Women's Collection</h2>
 			    						<p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-			    						<p><a href="#" class="btn btn-black px-3 py-2">Shop now</a></p>
+			    						<p><a href="{% url 'shop' %}" class="btn btn-black px-3 py-2">Shop now</a></p>
 			    					</div>
 	    						</div>
 	    					</div>
@@ -251,7 +251,7 @@
 		    								<span class="subheading">Summer Sale</span>
 				    						<h2>Extra 50% Off</h2>
 				    						<p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-				    						<p><a href="#" class="btn btn-black px-3 py-2">Shop now</a></p>
+				    						<p><a href="{% url 'shop' %}" class="btn btn-black px-3 py-2">Shop now</a></p>
 				    					</div>
 		    						</div>
 	    						</div>
@@ -261,7 +261,7 @@
 		    								<span class="subheading">Shoes</span>
 				    						<h2>Best Sellers</h2>
 				    						<p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-				    						<p><a href="#" class="btn btn-black px-3 py-2">Shop now</a></p>
+				    						<p><a href="{% url 'shop' %}" class="btn btn-black px-3 py-2">Shop now</a></p>
 				    					</div>
 		    						</div>
 	    						</div>
@@ -273,36 +273,56 @@
     	</div>
     </section>
 
-    <section class="ftco-section ftco-deal bg-primary">
-    	<div class="container">
-    		<div class="row">
-    			<div class="col-md-6">
-    				<img src="images/prod-1.png" class="img-fluid" alt="">
-    			</div>
-    			<div class="col-md-6">
-    				<div class="heading-section heading-section-white">
-    					<span class="subheading">Deal of the month</span>
-	            <h2 class="mb-3">Deal of the month</h2>
-	          </div>
-    				<div id="timer" class="d-flex mb-4">
-						  <div class="time" id="days"></div>
-						  <div class="time pl-4" id="hours"></div>
-						  <div class="time pl-4" id="minutes"></div>
-						  <div class="time pl-4" id="seconds"></div>
-						</div>
-						<div class="text-deal">
-							<h2><a href="#">Nike Free RN 2019 iD</a></h2>
-							<p class="price"><span class="mr-2 price-dc">$120.00</span><span class="price-sale">$80.00</span></p>
-							<ul class="thumb-deal d-flex mt-4">
-								<li class="img" style="background-image: url(images/product-6.png);"></li>
-								<li class="img" style="background-image: url(images/product-2.png);"></li>
-								<li class="img" style="background-image: url(images/product-4.png);"></li>
-							</ul>
-						</div>
-    			</div>
-    		</div>
-    	</div>
-    </section>
+
+{% for skidka in skidki %}
+    {% for tovar in skidka.old.all %}
+        <section class="ftco-section ftco-deal bg-primary">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <img src="{{ tovar.img.url }}" class="img-fluid" alt="{{ tovar.name }}">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="heading-section heading-section-white">
+                            <span class="subheading">Deal of the month</span>
+                            <h2 class="mb-3">Deal of the month</h2>
+                        </div>
+                       <div id="timer" class="d-flex mb-4">
+
+    <div class="time">
+        <span id="days">00</span>
+        <div class="label">Дней</div>
+    </div>
+    <div class="time pl-4">
+        <span id="hours">00</span>
+        <div class="label">Часов</div>
+    </div>
+    <div class="time pl-4">
+        <span id="minutes">00</span>
+        <div class="label">Минут</div>
+    </div>
+    <div class="time pl-4">
+        <span id="seconds">00</span>
+        <div class="label">Секунд</div>
+    </div>
+</div>                 <div class="text-deal">
+                            <h2><a href="#">{{ tovar.name }}</a></h2>
+                            <p class="price">
+                                <span class="mr-2 price-dc">${{ tovar.price }}</span>
+                                <span class="price-sale">${{ skidka.price_new }}</span>
+                            </p>
+                            <ul class="thumb-deal d-flex mt-4">
+                                <li class="img" style="background-image: url({{ tovar.img.url }});"></li>
+                                <li class="img" style="background-image: url({{ tovar.img.url }});"></li>
+                                <li class="img" style="background-image: url({{ tovar.img.url }});"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endfor %}
+{% endfor %}
 
     <section class="ftco-section testimony-section">
       <div class="container">
@@ -428,5 +448,40 @@
         </div>
       </div>
     </section>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+  const endDate = new Date("2025-06-05T00:00:00").getTime();
+
+  const updateCountdown = () => {
+    const now = new Date().getTime();
+    const timeLeft = endDate - now;
+
+    if (timeLeft <= 0) {
+      document.getElementById("days").textContent = "00";
+      document.getElementById("hours").textContent = "00";
+      document.getElementById("minutes").textContent = "00";
+      document.getElementById("seconds").textContent = "00";
+      clearInterval(timer);
+      return;
+    }
+
+    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+    // Обновление значений с добавлением нулей перед числами
+    document.getElementById("days").textContent = days.toString().padStart(2, "0");
+    document.getElementById("hours").textContent = hours.toString().padStart(2, "0");
+    document.getElementById("minutes").textContent = minutes.toString().padStart(2, "0");
+    document.getElementById("seconds").textContent = seconds.toString().padStart(2, "0");
+  };
+
+  const timer = setInterval(updateCountdown, 1000);
+  updateCountdown(); // Инициализация при загрузке страницы
+});
+</script>
 
 {% endblock %}

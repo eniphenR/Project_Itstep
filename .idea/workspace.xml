@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="91f7e08b-70f3-44ac-8d9b-472f9e4a3377" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myproject/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/myproject/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myproject/main_page/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/myproject/main_page/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myproject/main_page/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/myproject/main_page/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myproject/main_page/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/myproject/main_page/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myproject/templates/html_files/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/myproject/templates/html_files/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

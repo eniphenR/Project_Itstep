@@ -56,6 +56,14 @@ class Tovars(models.Model):
         return self.name
 
 
+class Skidka_Tovar(models.Model):
+    price_new = models.IntegerField(verbose_name='нова ціна')
+    old = models.ManyToManyField(Tovars,verbose_name='товар')
+
+
+
+class Gallery(models.Model):
+    img = models.ImageField(verbose_name='фото для галлереї')
 
 
 
