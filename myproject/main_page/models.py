@@ -1,6 +1,31 @@
 from django.db import models
+from django.utils.text import slugify
+
 
 # Create your models here.
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=30, verbose_name='Назва')
+    slug = models.SlugField(unique=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.name and not self.name.startswith('#'):
+            self.name = f'#{self.name}'
+
+        if not self.slug:
+            self.slug = slugify(self.name.lstrip('#'))
+
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Тег'
+        verbose_name_plural = 'Теги'
+
+
 
 class Size(models.Model):
     size = models.CharField(verbose_name='розмір')
@@ -24,7 +49,14 @@ class Tovars(models.Model):
 
     sizes = models.ManyToManyField(Size,verbose_name='розміри',blank=True)
     type = models.ManyToManyField(Type,verbose_name='вид')
+    tag = models.ManyToManyField(Tag,verbose_name='теги')
 
 
     def __str__(self):
         return self.name
+
+
+
+
+
+
