@@ -86,12 +86,7 @@ def about(request):
     }
     return render(request, 'html_files/about.html',context)
 
-def blog(request):
-    gallery = Gallery.objects.all()
-    context = {
-        'gallery': gallery
-    }
-    return render(request, 'html_files/blog.html',context)
+
 
 def contact(request):
     gallery = Gallery.objects.all()
@@ -99,3 +94,4 @@ def contact(request):
         'gallery': gallery
     }
     return render(request, 'html_files/contact.html',context)
+
