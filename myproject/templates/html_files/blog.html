@@ -45,10 +45,10 @@
             <div class="col-lg-4 sidebar ftco-animate">
                 <!-- Search Form -->
                 <div class="sidebar-box">
-                    <form action="#" class="search-form">
+                    <form method="get" action="{% url 'blog_page:blog' %}" class="search-form">
                         <div class="form-group">
                             <span class="icon ion-ios-search"></span>
-                            <input type="text" class="form-control" placeholder="Type a keyword and hit enter">
+                            <input type="text" name="query" class="form-control" placeholder="Type a keyword and hit enter" value="{{ request.GET.query }}">
                         </div>
                     </form>
                 </div>
@@ -57,19 +57,16 @@
                 <div class="sidebar-box ftco-animate">
                     <h3 class="heading">Categories</h3>
                     <ul class="categories">
-                        <li><a href="#">Shoes <span>(12)</span></a></li>
-                        <li><a href="#">Men's Shoes <span>(22)</span></a></li>
-                        <li><a href="#">Women's <span>(37)</span></a></li>
-                        <li><a href="#">Accessories <span>(42)</span></a></li>
-                        <li><a href="#">Sports <span>(14)</span></a></li>
-                        <li><a href="#">Lifestyle <span>(140)</span></a></li>
+                        {% for c in category %}
+                            <li><a href="#">{{ c.name }}<span>{{ c.category_count }}</span></a></li>
+                        {% endfor %}
                     </ul>
                 </div>
 
-                <!-- Recent Blogs -->
+                <!-- Recent Blogs (only 3 latest posts) -->
                 <div class="sidebar-box ftco-animate">
                     <h3 class="heading">Recent Blog</h3>
-                    {% for b in blog %}
+                    {% for b in latest_blogs %}
                         <div class="block-21 mb-4 d-flex">
                             <a class="blog-img mr-4" style="background-image: url('{{ b.img.url }}');"></a>
                             <div class="text">
@@ -87,22 +84,17 @@
                 <!-- Tag Cloud -->
                 <div class="sidebar-box ftco-animate">
                     <h3 class="heading">Tag Cloud</h3>
-                    <div class="tagcloud">
-                        <a href="#" class="tag-cloud-link">shop</a>
-                        <a href="#" class="tag-cloud-link">products</a>
-                        <a href="#" class="tag-cloud-link">shirt</a>
-                        <a href="#" class="tag-cloud-link">jeans</a>
-                        <a href="#" class="tag-cloud-link">shoes</a>
-                        <a href="#" class="tag-cloud-link">dress</a>
-                        <a href="#" class="tag-cloud-link">coats</a>
-                        <a href="#" class="tag-cloud-link">jumpsuits</a>
-                    </div>
+                    {% for t in tag %}
+                        <div class="tagcloud">
+                            <a href="#" class="tag-cloud-link">{{ t.name }}</a>
+                        </div>
+                    {% endfor %}
                 </div>
 
                 <!-- Paragraph Section -->
                 <div class="sidebar-box ftco-animate">
                     <h3 class="heading">Paragraph</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus itaque, autem necessitatibus voluptate quod mollitia delectus aut, sunt placeat nam vero culpa sapiente consectetur similique, inventore eos fugit cupiditate numquam!</p>
+                    <p>A blog is an online platform where individuals or groups regularly publish written content, often in the form of articles, about specific topics or personal experiences.</p>
                 </div>
             </div><!-- .sidebar -->
 
