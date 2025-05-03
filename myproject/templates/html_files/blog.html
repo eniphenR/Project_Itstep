@@ -1,8 +1,8 @@
+<!-- template changes -->
 {% extends 'html_files/base.html' %}
 {% load static %}
 
 {% block content %}
-
 <!-- Hero Section -->
 <div class="hero-wrap hero-bread" style="background-image: url({% static 'blog/images/bg_6.jpg' %});">
     <div class="container">
@@ -21,19 +21,19 @@
             <!-- Main Blog Content -->
             <div class="col-lg-8 order-lg-last ftco-animate">
                 <div class="row">
-                    {% for b in blog %}
+                    {% for b in blogs %}
                         <div class="col-md-12 ftco-animate"> <!-- Вертикальное размещение -->
                             <div class="blog-entry align-self-stretch">
-                                <a href="blog-single.html" class="block-20" style="background-image: url('{{ b.img.url }}');"></a>
+                                <a href="{% url 'blog_page:blog-single' name=b.name_text %}" class="block-20" style="background-image: url('{{ b.img.url }}');"></a>
                                 <div class="text d-block pl-md-4">
                                     <div class="meta mb-3">
-                                        <div><a href="#">{{ b.date }}</a></div>
-                                        <div><a href="#">{{ b.user }}</a></div>
+                                        <div><a href="{% url 'blog_page:blog-single' name=b.name_text %}">{{ b.date }}</a></div>
+                                        <div><a href="{% url 'blog_page:blog-single' name=b.name_text %}">{{ b.user }}</a></div>
                                         <div><a href="#" class="meta-chat"><span class="icon-chat"></span>{{ b.comment_count }}</a></div>
                                     </div>
-                                    <h3 class="heading"><a href="#">{{ b.name_text }}</a></h3>
+                                    <h3 class="heading"><a href="{% url 'blog_page:blog-single' name=b.name_text %}">{{ b.name_text }}</a></h3>
                                     <p>{{ b.desc }}</p>
-                                    <p><a href="blog-single.html" class="btn btn-primary py-2 px-3">Read more</a></p>
+                                    <p><a href="{% url 'blog_page:blog-single' name=b.name_text %}" class="btn btn-primary py-2 px-3">Read more</a></p>
                                 </div>
                             </div>
                         </div>
@@ -53,48 +53,42 @@
                     </form>
                 </div>
 
-                <!-- Categories List -->
+                <!-- Categories List with Filtering -->
                 <div class="sidebar-box ftco-animate">
                     <h3 class="heading">Categories</h3>
                     <ul class="categories">
                         {% for c in category %}
-                            <li><a href="#">{{ c.name }}<span>{{ c.category_count }}</span></a></li>
+                            <li><a href="?category={{ c.id }}&query={{ request.GET.query }}">{{ c.name }}<span>{{ c.category_count }}</span></a></li>
                         {% endfor %}
                     </ul>
                 </div>
 
-                <!-- Recent Blogs (only 3 latest posts) -->
+                <!-- Tag Cloud with Filtering -->
+                <div class="sidebar-box ftco-animate">
+                    <h3 class="heading">Tag Cloud</h3>
+                    {% for t in tag %}
+                        <div class="tagcloud">
+                            <a href="?tag={{ t.id }}&query={{ request.GET.query }}" class="tag-cloud-link">{{ t.name }}</a>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Recent Blogs -->
                 <div class="sidebar-box ftco-animate">
                     <h3 class="heading">Recent Blog</h3>
                     {% for b in latest_blogs %}
                         <div class="block-21 mb-4 d-flex">
                             <a class="blog-img mr-4" style="background-image: url('{{ b.img.url }}');"></a>
                             <div class="text">
-                                <h3 class="heading-1"><a href="#">{{ b.name_text }}</a></h3>
+                                <h3 class="heading-1"><a href="{% url 'blog_page:blog-single' name=b.name_text %}">{{ b.name_text }}</a></h3>
                                 <div class="meta">
-                                    <div><a href="#"><span class="icon-calendar"></span> {{ b.date }}</a></div>
-                                    <div><a href="#"><span class="icon-person"></span> {{ b.user }}</a></div>
-                                    <div><a href="#"><span class="icon-chat"></span> {{ b.comment_count }}</a></div>
+                                    <div><a href="{% url 'blog_page:blog-single' name=b.name_text %}"><span class="icon-calendar"></span> {{ b.date }}</a></div>
+                                    <div><a href="{% url 'blog_page:blog-single' name=b.name_text %}"><span class="icon-person"></span> {{ b.user }}</a></div>
+                                    <div><a href="{% url 'blog_page:blog-single' name=b.name_text %}"><span class="icon-chat"></span> {{ b.comment_count }}</a></div>
                                 </div>
                             </div>
                         </div>
                     {% endfor %}
-                </div>
-
-                <!-- Tag Cloud -->
-                <div class="sidebar-box ftco-animate">
-                    <h3 class="heading">Tag Cloud</h3>
-                    {% for t in tag %}
-                        <div class="tagcloud">
-                            <a href="#" class="tag-cloud-link">{{ t.name }}</a>
-                        </div>
-                    {% endfor %}
-                </div>
-
-                <!-- Paragraph Section -->
-                <div class="sidebar-box ftco-animate">
-                    <h3 class="heading">Paragraph</h3>
-                    <p>A blog is an online platform where individuals or groups regularly publish written content, often in the form of articles, about specific topics or personal experiences.</p>
                 </div>
             </div><!-- .sidebar -->
 

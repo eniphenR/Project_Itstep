@@ -1,13 +1,24 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .forms import SearchForm
 from main_page.models import Gallery
 from .models import Blogs, Tag, Category
 
 
-def blog_single(request):
+def blog_single(request,name):
+    post = get_object_or_404(Blogs, name_text=name)
+    blog = Blogs.objects.all()
+    category = Category.objects.all()
+    tag = Tag.objects.all()
+    latest_blogs = Blogs.objects.order_by('-date')[:3]
+
     gallery = Gallery.objects.all()
     context = {
-        'gallery': gallery
+        'gallery': gallery,
+        'post':post,
+        'blogs':blog,
+        'category': category,
+        'tag': tag,
+        'latest_blogs': latest_blogs
     }
     return render(request, 'html_files/blog-single.html', context)
 
@@ -15,21 +26,30 @@ def blog_single(request):
 def blog(request):
 
     gallery = Gallery.objects.all()
-    blog = Blogs.objects.all()
+    blogs = Blogs.objects.exclude(name_text__exact='')
     tag = Tag.objects.all()
     category = Category.objects.all()
 
     latest_blogs = Blogs.objects.order_by('-date')[:3]
 
+    category_filter = request.GET.get('category', None)
+    tag_filter = request.GET.get('tag', None)
+
+    if category_filter:
+        blogs = blogs.filter(category__id=category_filter)
+
+    if tag_filter:
+        blogs = blogs.filter(tag__id=tag_filter)
+
     form = SearchForm(request.GET)
     if form.is_valid():
         query = form.cleaned_data.get('query')
         if query:
-            blog = blog.filter(name_text__icontains=query) | blog.filter(desc__icontains=query)
+            blogs = blogs.filter(name_text__icontains=query) | blogs.filter(desc__icontains=query)
 
     context = {
         'gallery': gallery,
-        'blog': blog,
+        'blogs': blogs,
         'tag': tag,
         'category': category,
         'latest_blogs': latest_blogs,
