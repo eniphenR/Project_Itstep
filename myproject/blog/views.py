@@ -1,7 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .forms import SearchForm
 from main_page.models import Gallery
-from .models import Blogs, Tag, Category
+from .models import Blogs, Tag, Category, Comment
 
 
 def blog_single(request,name):
@@ -11,6 +11,27 @@ def blog_single(request,name):
     tag = Tag.objects.all()
     latest_blogs = Blogs.objects.order_by('-date')[:3]
 
+    category_filter = request.GET.get('category', None)
+    tag_filter = request.GET.get('tag', None)
+
+    if category_filter:
+        blog = blog.filter(category__id=category_filter)
+
+    if tag_filter:
+        blog = blog.filter(tag__id=tag_filter)
+
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        image = request.FILES.get('image')
+        desc = request.POST.get('message')
+        if name and email and image and desc:
+            comment = Comment.objects.create(name=name, email=email, image=image, desc=desc)
+            post.comment.add(comment)
+
+            return redirect('blog_page:blog-single', name=post.name_text)
+    comments = post.comment.all().order_by('-date')
+
     gallery = Gallery.objects.all()
     context = {
         'gallery': gallery,
@@ -18,7 +39,8 @@ def blog_single(request,name):
         'blogs':blog,
         'category': category,
         'tag': tag,
-        'latest_blogs': latest_blogs
+        'latest_blogs': latest_blogs,
+        'comments':comments
     }
     return render(request, 'html_files/blog-single.html', context)
 

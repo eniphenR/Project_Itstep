@@ -57,8 +57,8 @@
                 <div class="sidebar-box ftco-animate">
                     <h3 class="heading">Categories</h3>
                     <ul class="categories">
-                        {% for c in category %}
-                            <li><a href="?category={{ c.id }}&query={{ request.GET.query }}">{{ c.name }}<span>{{ c.category_count }}</span></a></li>
+                        {% for c in category.all %}
+                            <li><a href="{% url 'blog_page:blog' %}?category={{ c.id }}">{{ c.name }}<span>{{ c.category_count }}</span></a></li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -66,9 +66,9 @@
                 <!-- Tag Cloud with Filtering -->
                 <div class="sidebar-box ftco-animate">
                     <h3 class="heading">Tag Cloud</h3>
-                    {% for t in tag %}
+                    {% for t in tag.all %}
                         <div class="tagcloud">
-                            <a href="?tag={{ t.id }}&query={{ request.GET.query }}" class="tag-cloud-link">{{ t.name }}</a>
+                            <a href="{% url 'blog_page:blog' %}?category={{ t.id }}" class="tag-cloud-link">{{ t.name }}</a>
                         </div>
                     {% endfor %}
                 </div>
@@ -93,7 +93,10 @@
             </div><!-- .sidebar -->
 
         </div>
+
     </div>
+
+
 </section> <!-- .section -->
 
 {% endblock %}

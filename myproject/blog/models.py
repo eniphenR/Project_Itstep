@@ -43,9 +43,10 @@ class User(models.Model):
 
 
 class Comment(models.Model):
+    post = models.ForeignKey('Blogs', on_delete=models.CASCADE, related_name='comments',blank=True, null=True)
     name = models.CharField(verbose_name="ім'я користовувача",max_length=30)
     email = models.EmailField(verbose_name='почта')
-    website = models.TextField(blank=True, null=True,verbose_name='вебсайт')
+    image = models.ImageField(blank=True, null=True,verbose_name='фото')
     desc = models.TextField(blank=True, null=True,verbose_name='опис')
     date = models.DateTimeField(auto_now_add=True)
 
