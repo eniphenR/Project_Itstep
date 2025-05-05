@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from .models import Tovars,Skidka_Tovar,Gallery
+from django.shortcuts import render, redirect
+from .models import Tovars, Skidka_Tovar, Gallery, Say, Contact, Get_Contatc
 
 
 def get_tovars():
@@ -41,10 +41,13 @@ def index(request):
     for tovar in tovars:
         tovar.discounted_price = get_discounted_tovar(tovar)
 
+    a = Say.objects.all()
+
     context = {
         'tovars': tovars,
         'skidki': skidki,
-        'gallery':  gallery
+        'gallery':  gallery,
+        'a':a
     }
 
     context.update(get_tovars())
@@ -81,8 +84,11 @@ def checkout(request):
 
 def about(request):
     gallery = Gallery.objects.all()
+
+    a = Say.objects.all()
     context = {
-        'gallery': gallery
+        'gallery': gallery,
+        'a':a,
     }
     return render(request, 'html_files/about.html',context)
 
@@ -90,8 +96,28 @@ def about(request):
 
 def contact(request):
     gallery = Gallery.objects.all()
+    contact = Contact.objects.first()
+    get_contact = Get_Contatc.objects.all()
+
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        website = request.POST.get('website')
+        desc = request.POST.get('desc')
+        if name and email and website and desc:
+            Get_Contatc.objects.create(
+                name=name,
+                email=email,
+                website=website,
+                desc=desc
+            )
+            return redirect('main_page:contact')  # или на любую другую страницу
+
+
+
     context = {
-        'gallery': gallery
+        'gallery': gallery,
+        'contact':contact
     }
     return render(request, 'html_files/contact.html',context)
 

@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
-
+from phonenumber_field.modelfields import PhoneNumberField
 
 # Create your models here.
 
@@ -66,5 +66,31 @@ class Gallery(models.Model):
     img = models.ImageField(verbose_name='фото для галлереї')
 
 
+class Say(models.Model):
+    name = models.CharField(max_length=30,verbose_name="ім'я")
+    desc = models.TextField(max_length=200,verbose_name='опис')
+    job = models.CharField(max_length=30,verbose_name='працівник')
+    image = models.ImageField(null=True,blank=True)
 
+    def __str__(self):
+        return self.name
+
+
+class Contact(models.Model):
+    adress = models.TextField(max_length=100,verbose_name='адреса',blank=True)
+    phone = PhoneNumberField(region='UA',verbose_name='телефон',blank=True)
+    email = models.EmailField(verbose_name='пошта',blank=True)
+    website = models.URLField(verbose_name='сайт',blank=True)
+
+    def __str__(self):
+        return self.adress
+
+class Get_Contatc(models.Model):
+    name = models.TextField(max_length=100,verbose_name='адреса',blank=True)
+    desc = models.TextField(max_length=300,verbose_name='телефон',blank=True)
+    email = models.EmailField(verbose_name='пошта',blank=True)
+    website = models.URLField(verbose_name='сайт',blank=True)
+
+    def __str__(self):
+        return self.name
 
