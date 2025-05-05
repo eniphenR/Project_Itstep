@@ -9,6 +9,7 @@ class Tag(models.Model):
     name = models.CharField(max_length=30, verbose_name='Назва')
     slug = models.SlugField(unique=True, blank=True)
 
+
     def save(self, *args, **kwargs):
         if self.name and not self.name.startswith('#'):
             self.name = f'#{self.name}'
@@ -48,7 +49,7 @@ class Tovars(models.Model):
     img = models.ImageField(verbose_name='фото товару')
 
     sizes = models.ManyToManyField(Size,verbose_name='розміри',blank=True)
-    type = models.ManyToManyField(Type,verbose_name='вид')
+    type = models.ForeignKey(Type,verbose_name='вид', on_delete=models.CASCADE,blank=True,null=True)
     tag = models.ManyToManyField(Tag,verbose_name='теги')
 
 
