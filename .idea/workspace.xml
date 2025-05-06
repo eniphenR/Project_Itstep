@@ -7,11 +7,11 @@
     <list default="true" id="91f7e08b-70f3-44ac-8d9b-472f9e4a3377" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myproject/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/myproject/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myproject/main_page/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/myproject/main_page/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myproject/main_page/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/myproject/main_page/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/myproject/main_page/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/myproject/main_page/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myproject/main_page/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/myproject/main_page/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myproject/templates/html_files/cart.html" beforeDir="false" afterPath="$PROJECT_DIR$/myproject/templates/html_files/cart.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myproject/templates/html_files/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/myproject/templates/html_files/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/myproject/templates/html_files/nav.html" beforeDir="false" afterPath="$PROJECT_DIR$/myproject/templates/html_files/nav.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myproject/templates/html_files/product-single.html" beforeDir="false" afterPath="$PROJECT_DIR$/myproject/templates/html_files/product-single.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myproject/templates/html_files/shop.html" beforeDir="false" afterPath="$PROJECT_DIR$/myproject/templates/html_files/shop.html" afterDir="false" />
     </list>
@@ -85,6 +85,11 @@
           <url>file://$PROJECT_DIR$/myproject/blog/views.py</url>
           <line>49</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/myproject/main_page/models.py</url>
+          <line>81</line>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

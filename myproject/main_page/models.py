@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import ManyToManyField
 from django.utils.text import slugify
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -96,3 +97,41 @@ class Get_Contatc(models.Model):
     def __str__(self):
         return self.name
 
+
+
+class CartItem(models.Model):
+    tovar = models.ForeignKey(Tovars, on_delete=models.CASCADE, verbose_name='товар')
+    quantity = models.PositiveIntegerField(verbose_name='кількість', default=1)
+    size = models.ForeignKey(Size, on_delete=models.SET_NULL, null=True, verbose_name='розмір')
+
+    def get_total(self):
+        return self.tovar.price * self.quantity
+
+    def __str__(self):
+        return f"{self.tovar.name} x{self.quantity}"
+
+
+class Carts_order(models.Model):
+    items = models.ManyToManyField(CartItem, verbose_name='позиції')
+    created = models.DateTimeField(auto_now_add=True)
+
+    def total_price(self):
+        return sum(item.get_total() for item in self.items.all())
+
+    def __str__(self):
+        return f"Кошик #{self.id} ({self.items.count()} товарів)"
+
+
+class Order(models.Model):
+    cart = models.ForeignKey(Carts_order, on_delete=models.CASCADE, verbose_name='кошик')
+    first_name = models.CharField(verbose_name='ім’я', null=True)
+    last_name = models.CharField(verbose_name='прізвище', null=True)
+    country = models.CharField(verbose_name='країна', null=True)
+    street_adress = models.TextField(verbose_name='адреса', null=True)
+    city = models.CharField(verbose_name='місто', null=True)
+    postcode = models.IntegerField(verbose_name='поштовий код', null=True)
+    phone = models.CharField(verbose_name='телефон', max_length=20, null=True)
+    email = models.EmailField(verbose_name='пошта', null=True)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"

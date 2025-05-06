@@ -63,10 +63,6 @@ def shop(request):
 
     tovars = Tovars.objects.exclude(name__exact='')
 
-    magaz = Tovars.objects.all()
-
-    tovarr = Tovars.objects.all()
-
     # Фильтрация по тегу
     tag_filter = request.GET.get('tag')
     if tag_filter:
@@ -102,23 +98,24 @@ def shop(request):
         'price_to_selected': price_to or '',
         'tovars': tovars,  # Отображаем товары, которые прошли фильтрацию
         'skidki': skidki,
-        'tovarr':tovarr
+
     }
     context.update(get_skidka())
     return render(request, 'html_files/shop.html', context)
 
 def product_single(request, name):
     gallery = Gallery.objects.all()
-    tovar = Tovars.objects.get(name=name)  # Получаем один товар, а не список
+    tovars = Tovars.objects.get(name=name)  # Получаем один товар, а не список
 
     skidki = Skidka_Tovar.objects.prefetch_related('old').all()
-    tovar.discounted_price = get_discounted_tovar(tovar)  # Применяем скидку для одного товара
+    tovars.discounted_price = get_discounted_tovar(tovars)  # Применяем скидку для одного товара
 
     context = {
         'gallery': gallery,
-        'tovar': tovar,  # Передаем один товар
+        'tovars': tovars,  # Передаем один товар
         'skidki': skidki,
     }
+    context.update(get_skidka())
     return render(request, 'html_files/product-single.html', context)
 
 def cart(request):
