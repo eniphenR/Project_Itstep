@@ -8,7 +8,11 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myproject/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/myproject/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myproject/main_page/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/myproject/main_page/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myproject/main_page/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/myproject/main_page/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myproject/main_page/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/myproject/main_page/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myproject/templates/html_files/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/myproject/templates/html_files/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myproject/templates/html_files/nav.html" beforeDir="false" afterPath="$PROJECT_DIR$/myproject/templates/html_files/nav.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myproject/templates/html_files/product-single.html" beforeDir="false" afterPath="$PROJECT_DIR$/myproject/templates/html_files/product-single.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myproject/templates/html_files/shop.html" beforeDir="false" afterPath="$PROJECT_DIR$/myproject/templates/html_files/shop.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

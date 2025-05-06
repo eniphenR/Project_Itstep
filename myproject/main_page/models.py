@@ -51,6 +51,7 @@ class Tovars(models.Model):
     sizes = models.ManyToManyField(Size,verbose_name='розміри',blank=True)
     type = models.ForeignKey(Type,verbose_name='вид', on_delete=models.CASCADE,blank=True,null=True)
     tag = models.ManyToManyField(Tag,verbose_name='теги')
+    avaible = models.IntegerField(verbose_name='кількість',null=True)
 
 
     def __str__(self):

@@ -52,7 +52,7 @@
           {% for c in tovars %}
             <div class="col-sm-12 col-md-12 col-lg-4 ftco-animate d-flex">
               <div class="product d-flex flex-column h-100">
-                <a href="#" class="img-prod">
+                <a href="{% url 'main_page:product_single' name=c.name %}" class="img-prod">
                   <img class="img-fluid" src="{{ c.img.url }}" alt="Product image">
                   <div class="overlay"></div>
                 </a>
@@ -60,7 +60,7 @@
                   <div class="d-flex">
                     <div class="cat"><span>{{ c.tag.all|join:", " }}</span></div>
                   </div>
-                  <h3><a href="#">{{ c.name }}</a></h3>
+                  <h3><a href="{% url 'main_page:product_single' name=c.name %}">{{ c.name }}</a></h3>
 
                   {% with skidka=skidka_tovars|get_discount:c %}
                     {% if skidka %}

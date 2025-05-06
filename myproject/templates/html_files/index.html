@@ -149,7 +149,7 @@
 			{% for tovar in cat1 %}
 			<div class="col-sm-12 col-md-6 col-lg-3 ftco-animate d-flex">
 				<div class="product d-flex flex-column">
-					<a href="#" class="img-prod"><img class="img-fluid" src="{{ tovar.img.url }}" alt="{{ tovar.name }}">
+					<a href="{% url 'main_page:product_single' name=tovar.name %}" class="img-prod"><img class="img-fluid" src="{{ tovar.img.url }}" alt="{{ tovar.name }}">
 						<div class="overlay"></div>
 					</a>
 					<div class="text py-3 pb-4 px-3">
@@ -158,7 +158,7 @@
 								{{ tovar.tag.all|join:", " }}
 							</div>
 						</div>
-						<h3><a href="#">{{ tovar.name }}</a></h3>
+						<h3><a href="{% url 'main_page:product_single' name=tovar.name %}">{{ tovar.name }}</a></h3>
 						{% with skidka=skidka_tovars|get_discount:tovar %}
 							{% if skidka %}
 								{% for tovar in skidka.old.all %}
@@ -184,86 +184,12 @@
 			</div>
 			{% endfor %}
 
-			{% for tovar in cat2 %}
-			<div class="col-sm-12 col-md-6 col-lg-3 ftco-animate d-flex">
-				<div class="product d-flex flex-column">
-					<a href="#" class="img-prod"><img class="img-fluid" src="{{ tovar.img.url }}" alt="{{ tovar.name }}">
-						<div class="overlay"></div>
-					</a>
-					<div class="text py-3 pb-4 px-3">
-						<div class="d-flex">
-							<div class="cat">
-								{{ tovar.tag.all|join:", " }}
-							</div>
-						</div>
-						<h3><a href="#">{{ tovar.name }}</a></h3>
-						{% with skidka=skidka_tovars|get_discount:tovar %}
-							{% if skidka %}
-								{% for tovar in skidka.old.all %}
-								<div class="pricing">
-									<p class="price">
-										<span class="mr-2 price-dc">{{ tovar.price }}$</span>
-										<span class="price-sale">{{ skidka.price_new }}$</span>
-									</p>
-								</div>
-								{% endfor %}
-							{% else %}
-								<div class="pricing">
-									<p class="price"><span>{{ tovar.price }}$</span></p>
-								</div>
-							{% endif %}
-						{% endwith %}
-						<p class="bottom-area d-flex px-3">
-							<a href="#" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
-							<a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a>
-						</p>
-					</div>
-				</div>
-			</div>
-			{% endfor %}
 
-			{% for tovar in cat3 %}
-			<div class="col-sm-12 col-md-6 col-lg-3 ftco-animate d-flex">
-				<div class="product d-flex flex-column">
-					<a href="#" class="img-prod"><img class="img-fluid" src="{{ tovar.img.url }}" alt="{{ tovar.name }}">
-						<div class="overlay"></div>
-					</a>
-					<div class="text py-3 pb-4 px-3">
-						<div class="d-flex">
-							<div class="cat">
-								{{ tovar.tag.all|join:", " }}
-							</div>
-						</div>
-						<h3><a href="#">{{ tovar.name }}</a></h3>
-						{% with skidka=skidka_tovars|get_discount:tovar %}
-							{% if skidka %}
-								{% for tovar in skidka.old.all %}
-								<div class="pricing">
-									<p class="price">
-										<span class="mr-2 price-dc">{{ tovar.price }}$</span>
-										<span class="price-sale">{{ skidka.price_new }}$</span>
-									</p>
-								</div>
-								{% endfor %}
-							{% else %}
-								<div class="pricing">
-									<p class="price"><span>{{ tovar.price }}$</span></p>
-								</div>
-							{% endif %}
-						{% endwith %}
-						<p class="bottom-area d-flex px-3">
-							<a href="#" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
-							<a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a>
-						</p>
-					</div>
-				</div>
-			</div>
-			{% endfor %}
 
 			{% for tovar in cat4 %}
 			<div class="col-sm-12 col-md-6 col-lg-3 ftco-animate d-flex">
 				<div class="product d-flex flex-column">
-					<a href="#" class="img-prod"><img class="img-fluid" src="{{ tovar.img.url }}" alt="{{ tovar.name }}">
+					<a href="{% url 'main_page:product_single' name=tovar.name %}" class="img-prod"><img class="img-fluid" src="{{ tovar.img.url }}" alt="{{ tovar.name }}">
 						<div class="overlay"></div>
 					</a>
 					<div class="text py-3 pb-4 px-3">
@@ -272,7 +198,7 @@
 								{{ tovar.tag.all|join:", " }}
 							</div>
 						</div>
-						<h3><a href="#">{{ tovar.name }}</a></h3>
+						<h3><a href="{% url 'main_page:product_single' name=tovar.name %}">{{ tovar.name }}</a></h3>
 						{% with skidka=skidka_tovars|get_discount:tovar %}
 							{% if skidka %}
 								{% for tovar in skidka.old.all %}
