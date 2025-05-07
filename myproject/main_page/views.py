@@ -184,7 +184,7 @@ def checkout(request):
 
     # Вычисляем общую сумму
     total_sum = sum(item.get_total() for item in cart_items)
-
+    cart = Carts_order.objects.get()
     # Если запрос POST (оформление заказа)
     if request.method == 'POST':
         # Извлекаем данные из формы
@@ -199,19 +199,19 @@ def checkout(request):
         country = request.POST.get('country')
         payment_method = request.POST.get('payment_method')
 
-        # Создаем новый заказ Carts_order
-        order = Carts_order.objects.create(
+        # Создаем новый заказ в модели Order
+        order = Order.objects.create(
+            cart = cart,
+            user=request.user,  # Связь с текущим пользователем
             first_name=first_name,
             last_name=last_name,
             street_address=street_address,
-            apartment=apartment,
             city=city,
             postcode=postcode,
             phone=phone,
             email=email,
             country=country,
-            payment_method=payment_method,
-            user=request.user  # Связь с текущим пользователем
+            status='new',  # Новый заказ
         )
 
         # Добавляем товары из корзины в заказ
@@ -224,22 +224,10 @@ def checkout(request):
             )
 
         # Удаляем товары из корзины
-        cart_items.delete()
-
-        # Создаем объект Order для отслеживания статуса
-        new_order = Order.objects.create(
-            cart=order,  # Связь с корзиной
-            user=request.user,
-            first_name=first_name,
-            last_name=last_name,
-            street_address=street_address,
-            city=city,
-            postcode=postcode,
-            phone=phone,
-            email=email,
-            country=country,
-            status='new',  # Новый заказ
-        )
+        if cart_items.exists():
+            cart_items.delete()
+        else:
+            print("Корзина пуста")  # Выводим сообщение, если корзина пуста
 
         # Перенаправляем на страницу успешного оформления заказа
         return redirect('main_page:order_succes')
