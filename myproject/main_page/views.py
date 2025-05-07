@@ -178,12 +178,12 @@ class OrderItem:
 def checkout(request):
     # Получаем галерею товаров (если она нужна)
     gallery = Gallery.objects.all()
+    order = CartItem.objects.all()
+
+    total_sum = sum(item.get_total() for item in order)
 
     # Получаем товары в корзине для текущего пользователя
-    cart_items = CartItem.objects.filter(user=request.user)
 
-    # Вычисляем общую сумму
-    total_sum = sum(item.get_total() for item in cart_items)
     cart = Carts_order.objects.get()
     # Если запрос POST (оформление заказа)
     if request.method == 'POST':
