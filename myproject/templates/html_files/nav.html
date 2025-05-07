@@ -41,7 +41,7 @@
 	          <li class="nav-item"><a href="{% url 'main_page:about' %}" class="nav-link">About</a></li>
 	          <li class="nav-item"><a href="{% url 'blog_page:blog' %}" class="nav-link">Blog</a></li>
 	          <li class="nav-item"><a href="{% url 'main_page:contact' %}" class="nav-link">Contact</a></li>
-	          <li class="nav-item cta cta-colored"><a href="{% url 'main_page:cart' %}" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+	          <li class="nav-item cta cta-colored"><a href="{% url 'main_page:cart' %}" class="nav-link"><span class="icon-shopping_cart"></span>{{ cart_count }}</a></li>
 
 	        </ul>
 	      </div>

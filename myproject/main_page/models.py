@@ -54,9 +54,17 @@ class Tovars(models.Model):
     tag = models.ManyToManyField(Tag,verbose_name='теги')
     avaible = models.IntegerField(verbose_name='кількість',null=True)
 
-
     def __str__(self):
         return self.name
+
+    def get_discounted_price(self):
+        """Возвращает цену со скидкой, если она есть"""
+        try:
+            # Проверяем, есть ли скидка на товар
+            skidka = Skidka_Tovar.objects.get(old=self)
+            return skidka.price_new  # Возвращаем новую цену со скидкой
+        except Skidka_Tovar.DoesNotExist:
+            return self.price  # Если скидки нет, возвращаем обычную цену
 
 
 class Skidka_Tovar(models.Model):
@@ -105,7 +113,11 @@ class CartItem(models.Model):
     size = models.ForeignKey(Size, on_delete=models.SET_NULL, null=True, verbose_name='розмір')
 
     def get_total(self):
-        return self.tovar.price * self.quantity
+        """Возвращает общую цену товара с учетом количества и скидки"""
+        return self.tovar.get_discounted_price() * self.quantity
+
+    def get_total_order(self):
+        return self.quantity
 
     def __str__(self):
         return f"{self.tovar.name} x{self.quantity}"

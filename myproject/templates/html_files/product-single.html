@@ -17,11 +17,14 @@
     <section class="ftco-section">
         <div class="container">
             <div class="row">
+
                 <div class="col-lg-6 mb-5 ftco-animate">
                     <a href="{{ tovar.img.url }}" class="image-popup prod-img-bg"><img src="{{ tovars.img.url }}" class="img-fluid" alt="Product Image"></a>
                 </div>
                 <div class="col-lg-6 product-details pl-md-5 ftco-animate">
-                    <h3>{{ tovars.name }}</h3>
+                    <form method="POST" enctype="multipart/form-data" >
+                        {% csrf_token %}
+                    <h3 id="name" name="name">{{ tovars.name }}</h3>
                     {% with skidka=skidka_tovars|get_discount:tovars %}
                         {% if skidka %}
                             {% for tovar in skidka.old.all %}
@@ -41,6 +44,7 @@
                     <p>{{ tovars.desc }}</p>
                     <div class="row mt-4">
                         <div class="col-md-6">
+
                             <div class="form-group d-flex">
                                 <div class="select-wrap">
                                     <div class="icon"><span class="ion-ios-arrow-down"></span></div>
@@ -60,10 +64,12 @@
                         </div>
                     </div>
                     <p>
-                        <a href="cart.html" class="btn btn-black py-3 px-5 mr-2">Add to Cart</a>
+                       <input type="submit" value="Add to Cart" class="btn py-3 px-4 btn-primary">
                         <a href="cart.html" class="btn btn-primary py-3 px-5">Buy now</a>
                     </p>
+                     </form>
                 </div>
+
             </div>
 
             <div class="row mt-5">
