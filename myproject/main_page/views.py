@@ -1,6 +1,8 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Tovars, Skidka_Tovar, Gallery, Say, Contact, Get_Contatc, Type, Tag, CartItem, Size
-
+from .models import Tovars, Skidka_Tovar, Gallery, Say, Contact, Get_Contatc, Type, Tag, CartItem, Size, Carts_order, \
+    Order
+from django.contrib.auth.models import User
 
 def get_tovars(qs=None):
     """
@@ -114,6 +116,7 @@ def product_single(request, name):
     gallery = Gallery.objects.all()
     tovars = Tovars.objects.get(name=name)
 
+
     skidki = Skidka_Tovar.objects.prefetch_related('old').all()
     tovars.discounted_price = get_discounted_tovar(tovars)
 
@@ -124,11 +127,20 @@ def product_single(request, name):
         if quantity and size:
             size_instance = get_object_or_404(Size, size=size)
 
-            CartItem.objects.create(
+
+            cart_item = CartItem.objects.create(
                 tovar=tovars,
                 quantity=int(quantity),
                 size=size_instance
             )
+
+            cart, created = Carts_order.objects.get_or_create(user=request.user)
+
+
+            cart.items.add(cart_item)
+
+
+            cart.save()
 
             return redirect('main_page:cart')
 
@@ -157,13 +169,89 @@ def cart(request):
 
     return render(request, 'html_files/cart.html', context)
 
+
+class OrderItem:
+    pass
+
+
+@login_required
 def checkout(request):
+    # Получаем галерею товаров (если она нужна)
     gallery = Gallery.objects.all()
+
+    # Получаем товары в корзине для текущего пользователя
+    cart_items = CartItem.objects.filter(user=request.user)
+
+    # Вычисляем общую сумму
+    total_sum = sum(item.get_total() for item in cart_items)
+
+    # Если запрос POST (оформление заказа)
+    if request.method == 'POST':
+        # Извлекаем данные из формы
+        first_name = request.POST.get('firstname')
+        last_name = request.POST.get('lastname')
+        street_address = request.POST.get('streetaddress')
+        apartment = request.POST.get('apartment', '')
+        city = request.POST.get('towncity')
+        postcode = request.POST.get('postcodezip')
+        phone = request.POST.get('phone')
+        email = request.POST.get('emailaddress')
+        country = request.POST.get('country')
+        payment_method = request.POST.get('payment_method')
+
+        # Создаем новый заказ Carts_order
+        order = Carts_order.objects.create(
+            first_name=first_name,
+            last_name=last_name,
+            street_address=street_address,
+            apartment=apartment,
+            city=city,
+            postcode=postcode,
+            phone=phone,
+            email=email,
+            country=country,
+            payment_method=payment_method,
+            user=request.user  # Связь с текущим пользователем
+        )
+
+        # Добавляем товары из корзины в заказ
+        for item in cart_items:
+            OrderItem.objects.create(
+                order=order,  # Связь с заказом
+                product=item.tovar,  # Ссылка на товар
+                quantity=item.quantity,
+                price=item.tovar.get_discounted_price()  # Цена со скидкой
+            )
+
+        # Удаляем товары из корзины
+        cart_items.delete()
+
+        # Создаем объект Order для отслеживания статуса
+        new_order = Order.objects.create(
+            cart=order,  # Связь с корзиной
+            user=request.user,
+            first_name=first_name,
+            last_name=last_name,
+            street_address=street_address,
+            city=city,
+            postcode=postcode,
+            phone=phone,
+            email=email,
+            country=country,
+            status='new',  # Новый заказ
+        )
+
+        # Перенаправляем на страницу успешного оформления заказа
+        return redirect('main_page:order_succes')
+
     context = {
-        'gallery': gallery
+        'gallery': gallery,
+        'total_sum': total_sum,
     }
 
-    return render(request, 'html_files/checkout.html',context)
+    return render(request, 'html_files/checkout.html', context)
+
+
 
 def about(request):
     gallery = Gallery.objects.all()
@@ -214,3 +302,7 @@ def remove_item(request, item_id):
 
 
     return redirect('main_page:cart')
+
+
+def order_succes(request):
+    return render(request, 'html_files/order_succes.html')

@@ -1,0 +1,27 @@
+{% extends 'html_files/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="hero-wrap hero-bread" style="background-image: url({% static 'blog/images/bg_6.jpg' %});">
+  <div class="container">
+    <div class="row no-gutters slider-text align-items-center justify-content-center">
+      <div class="col-md-9 ftco-animate text-center">
+        <h1 class="mb-0 bread">Thank You</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="ftco-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 text-center ftco-animate">
+        <h2 class="mb-4">Thank you for your order!</h2>
+        <p>We have received your order and will contact you shortly to confirm the details.</p>
+        <p>If you have any questions, feel free to reach out to us at any time.</p>
+        <a href="{% url 'main_page:index' %}" class="btn btn-primary mt-4">Back to Home</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
